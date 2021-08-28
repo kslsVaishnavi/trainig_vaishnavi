@@ -48,8 +48,7 @@ public static void CreditCard(String username,String TotalBill)  {
 		int bilInt = Integer.parseInt(TotalBill);
 		Class.forName("org.apache.derby.jdbc.ClintDriver");
 		Connection connect = DriverManager.getConnection("jdbc:derby://localhost:1527/sample1;create=true","user","user");
-		//connect.setAutoCommit(false);
-		Statement stat = connect.createStatement();
+	        Statement stat = connect.createStatement();
 		ResultSet rs= stat.executeQuery("SELECT * FROM APP.PAYMENT where userid='"+username+"'");
 		rs.next();
 		String d =rs.getString(2);
@@ -60,11 +59,11 @@ public static void CreditCard(String username,String TotalBill)  {
 		ss.setString(2, username);
 		ss.executeUpdate();
 		if(balance>=0 && savings>=bilInt){
-			//connect.commit();
+			
 			System.out.println("transaction is done");
 		}
 		else{
-			//connect.rollback();
+			
 			System.out.println("Credit limit is breached");
 			System.out.println("Transaction Declined");
 			System.exit(1);
@@ -81,7 +80,6 @@ public static void CreditCard(String username,String TotalBill)  {
 			int bilInt = Integer.parseInt(TotalBill);
 			Class.forName("org.apache.derby.jdbc.ClintDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby://localhost:1527/sample1;create=true","user","user");
-			//connect.setAutoCommit(false);
 			Statement stat = connect.createStatement();
 			ResultSet rs= stat.executeQuery("SELECT * FROM APP.PAYMENT where userid='"+username+"'");
 			rs.next();
@@ -94,11 +92,10 @@ public static void CreditCard(String username,String TotalBill)  {
 			ss.setString(2, username);
 			ss.executeUpdate();
 			if(balance>=0 && savings>=bilInt){
-				//connect.commit();
+				
 				System.out.println("transaction is done");
 			}
 			else{
-				//connect.rollback();
 				System.out.println("Insufficient Balance");
 				System.out.println("Transaction Declined");
 				System.exit(1);
@@ -112,22 +109,6 @@ public static void CreditCard(String username,String TotalBill)  {
 }
 
 
-
-//System.out.println("How do you want to do Transaction:");
-//System.out.println("1.Credit Card");
-//System.out.println("2.Debit Card");
-//Scanner scan = new Scanner(System.in);
-//String transaction=scan.nextLine();
-//if( transaction.equals("1")){
-//Pay ps = new Pay();
-//ps.CreditCard(userId, transaction);
-//}
-//if( transaction.equals("2")){
-//	Pay ps = new Pay();
-//	ps.DebitCard(userId, transaction);
-//}
-//
-//}		
 
 
 

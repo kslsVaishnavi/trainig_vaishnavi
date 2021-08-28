@@ -1,65 +1,19 @@
-package store;
+package Cloth;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.Map.Entry;
+import Cloth.ProductService;
+import java.util.Scanner;
+import Cloth.Pay;
 
-
-
-
-
-//public class UserLoginn {public class Store{
-
-
-	
-
-	public class UserLoginn {
-		/*private static Connection connection = null;
-	    private static Statement stmt = null;
-  
-	    private static void createConnection()
-	    {
-	        try
-	        {
-	       //     Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-	            //Get a connection
-	        //    conn = DriverManager.getConnection(dbURL);
-	        	Class.forName("org.apache.derby.jdbc.ClientDriver");
-				connection = DriverManager.getConnection("jdbc:derby://localhost:1527/sample1;create=true","user","user");
-				
-	        }
-	        catch (Exception except)
-	        {
-	            except.printStackTrace();
-	        }
-	    }*/
-	    
-	    /*private static void insertInvoicedetails(String userid, String product,float quantInt,float finalTotalAmount)
-	    {
-	        try
-	        {
-	            //stmt = connection.createStatement();
-	            PreparedStatement st = connection.prepareStatement("insert into app.InvoiceService values(?,?,?,?)");
-				String query ="INSERT INTO APP.INVOICEDETAILS values('"+userid+"','"+product+"',"+quantInt+","+finalTotalAmount+")";	            
-	            System.err.println(query);
-	                 stmt.executeUpdate(query);
-	                 System.out.println("Values inserted");
-	            stmt.close();
-	        }
-	        catch (SQLException sqlExcept)
-	        {
-	            sqlExcept.printStackTrace();
-	        }
-	    }
-	    */
-		@SuppressWarnings("resource")
-		public
-				Scanner sc = new Scanner(System.in);
+public class UserLoginn {
+	public
+			    Scanner sc = new Scanner(System.in);
 				Map<String,String> map = new HashMap<>();
-				Map<String,String> map_1 = new HashMap<>();
+				Map<String,String> map2 = new HashMap<>();
 			
 				
 			void login()
@@ -73,27 +27,29 @@ import java.util.Map.Entry;
 	            } catch (Exception e) {
 	                System.out.println(e.getMessage());
 	            }		 
-					//System.out.println("incorrect");
 				}
 				else
 				{  
 					if(map.containsKey(use))
 					{
 						String check = map.get(use);
+						String role = map2.get(use);
 						if(pass.equals(check))
 						{
-							System.out.println("Login Successfully");
-						
-							store1(use);
-						}
+							System.out.println("Login Successfully "+check+" "+role);
+							if(role.equals("admin")){
+								System.out.println("Inflow function");
+								ProductService ps = new ProductService();
+								ps.productService(use);
+							}
+							}
 						else
 							System.err.println("Invalid Password Or Username");
 
 					}
 				}
-				
-			}
-			void register() {
+				}
+			 void register() {
 				
 			    	System.out.println("Enter user name:");
 				String str_1=sc.nextLine();
@@ -106,17 +62,16 @@ import java.util.Map.Entry;
 				{
 					System.out.println("Enter password:");
 					String str2=sc.nextLine();
-				  System.out.println("Enter role:");
+				    System.out.println("Enter role:");
 					System.out.println("admin");
 					System.out.println("user");
 					System.out.println("manager");
+					 
 					String str3=sc.nextLine();
 					map.put(str_1,str2);
-					map_1.put(str_1,str3);
+					map2.put(str_1,str3);
 					System.out.println("User Register Successfully");
-					//System.out.println("User size :"+map.size());
-					
-				}
+					}
 			}
 			
 			void invoiceDetails(String product, int quantInt, float originalBill, String userId)
@@ -130,18 +85,13 @@ import java.util.Map.Entry;
 					}catch(Exception e){
 						System.out.println(e);
 					}
-		            //stmt = connection.createStatement();
-		            
-					con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/sample1","user","user");
-					System.out.println("Connection is created successfully:");
+		            con = (Connection) DriverManager.getConnection("jdbc:derby://localhost:1527/sample1","user","user");
+					System.out.println("Connection is create successfully:");
 					stmt = (Statement) con.createStatement();
-					//PreparedStatement st = con.prepareStatement("insert into APP.INVOICE values(?,?,?,?)");
 					String query ="INSERT INTO APP.INVOICESERVICE values('"+userId+"','"+product+"','"+Integer.toString(quantInt)+"','"+Float.toString(originalBill)+"')";	            
-		           // System.err.println(query);
 		                 stmt.executeUpdate(query);
 		                 System.out.println("Values inserted");
-		            //stmt.close();
-		        }
+		                 }
 		        catch (SQLException sqlExcept)
 		        {
 		            sqlExcept.printStackTrace();
@@ -150,7 +100,7 @@ import java.util.Map.Entry;
 		        } finally{
 		        	try{
 		        		if(stmt != null)
-		        			con.close();
+		        			stmt.close();
 		        	}catch(SQLException se){}
 		        	try{
 		        		if(con!=null)
@@ -160,20 +110,17 @@ import java.util.Map.Entry;
 		        		se.printStackTrace();
 		        	}
 		        }
-				System.out.println("Recored inserted");
-			}			
+				System.out.println("Recored s inserted");
+				Pay ps = new Pay();
+				ps.Payment(userId );	
+				}
 			
-			void store1(String userId)
+			 void store1(String userId)
 			{
-////				void cloth(){
-//		    	System.out.println("Clothing store");
-//		    }
 	               String productType[]={"Jeans", "Shoes", "Shirts"};
 			        String products[]={"A", "B", "C"};
 			        float amount[]={100,200,300};
 			        int quantitys[]={1,2,3};
-			        
-			       // public void store1(){
 			       System.out.println("Hi There, Welcome to Clothing Store");
 			       String gender;
 			       String clothing;
@@ -202,9 +149,7 @@ import java.util.Map.Entry;
 			            } catch (Exception e) {
 			                System.out.println(e.getMessage());
 			            }		 
-				    	   //System.out.println("gender not matched");
 				       }
-				       
 				       clothing = scan.nextLine();
 			           if(clothing.equals("1")|| clothing.equals("2")|| clothing.equals("3")){
 			           System.out.println("---------------------------------------");
@@ -229,7 +174,6 @@ import java.util.Map.Entry;
 					           System.out.println("   C               3           300.00 ");
 					           System.out.println("---------------------------------------");
 					        }
-			        	   //System.out.println("quantity not matched");
 			           }
 			           int quantTemp=0;
 			           System.out.println("select product:");
@@ -237,29 +181,24 @@ import java.util.Map.Entry;
 			          System.out.println("select quantity:");
 			           String quantity= scan.nextLine();
 			           int quantInt =Integer.parseInt(quantity);
-			           //float f=Float.parseFloat(amount);
 			           float amountTemp =0; float finalTotalAmount=0;
-			          
-			           for(int i=0;i<=products.length;i++){
+			            for(int i=0;i<=products.length;i++){
 			        	   String productsTemp = products[i];
 			        	   if(product.equals(productsTemp)){
 			        		   quantTemp=quantitys[i];
 			        		   amountTemp=amount[i];
-			        		   
-			        		  break;
+			        		    break;
 			        		  }
 			        	  }
 			           finalTotalAmount= quantInt *amountTemp;
-			           
-			           
-			       System.out.println("Invoice generated:");
+			        System.out.println("Invoice generated:");
 				   System.out.println("-------------------------------");
 				   System.out.println("products    quantity     Bill   ");
 				   System.out.println("-------------------------------");
 				   System.out.println(product+"         "+quantInt+"          "+finalTotalAmount  );
 				   System.out.println("--------------------------------");
-				   Bill bill = new Bill();
-					float originalBill = bill.calculateBill(quantTemp, amountTemp);
+				   Billing bill = new Billing();
+					float originalBill = bill.calculateBilling(quantTemp, amountTemp);
 					int gst = 0;
 					if (finalTotalAmount > 100 && finalTotalAmount <= 200) {
 						gst = 10;
@@ -268,23 +207,19 @@ import java.util.Map.Entry;
 					} else if (originalBill > 500) {
 						gst = 30;
 					}
-					float TotalBill = bill.calculateBill(quantTemp, amountTemp, gst);
+					float TotalBill = bill.calculateBilling(quantTemp, amountTemp, gst);
 					
 					System.out.println("Total: " +TotalBill+ " (" + originalBill + " + " + gst + "% GST  "
 							+ bill.calculateGst(originalBill, gst)+"Rs)");
 			
 				        System.out.println("Total: "+TotalBill);
-					
-				
-	                   if(quantInt>quantTemp){try {
+					if(quantInt>quantTemp){try {
 			                throw new MyException("select the correct product with respective quantity");
 			            } catch (Exception e) {
 			                System.out.println(e.getMessage());
 			            }	
-					  // System.out.println("INVALID QUANTITY");
 					   }
-	                   
-	                  System.out.println("Do you want to print invoice :(y/n)");
+	                   System.out.println("Do you want to print invoice :(y/n)");
 	                  print=scan.nextLine();
 	                  
 	                  if(print.equals("y")|| print.equals("Y")){
@@ -315,12 +250,13 @@ import java.util.Map.Entry;
 
 			public static void main(String[] args) {
 				UserLoginn obj = new UserLoginn();
-				Scanner sc = new Scanner(System.in);
+				Scanner scan = new Scanner(System.in);
+				System.err.println("Welcome to Shopping Store");
 				System.out.println("choose the option 1 and 2:");
 		while(true) {
 					System.out.println("Login");
 					System.out.println("Register");
-				    int option=sc.nextInt();	
+				    int option=scan.nextInt();	
 				
 				switch(option)
 				{
@@ -340,8 +276,6 @@ import java.util.Map.Entry;
 	            } catch (Exception e) {
 	                System.out.println(e.getMessage());
 	            }		         
-		           //System.err.print("Invalid Input");
-						
 				}	
 			}
 	}
@@ -351,10 +285,7 @@ import java.util.Map.Entry;
 	    public MyException() {
 
 	  }
-
-	 
-
-	    MyException(String message) {
+	MyException(String message) {
 	        super(message);
 	    }
 	}
